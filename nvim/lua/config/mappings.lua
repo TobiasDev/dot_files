@@ -41,28 +41,60 @@ map("n", "<M-c>", "<cmd>lua require('Comment.api').toggle.linewise.current()<CR>
 map("v", "<M-c>", "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>")
 
 -- LSP
-map('n', '<C-e>', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-map('n', '<C-j>', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
+map('n', '<C-e>', '<cmd>lua vim.diagnostic.open_float()<CR>')
 map('n', '<C-r>', '<cmd>lua vim.lsp.buf.rename()<cr>')
-map('n', '<S-j>', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-map('n', '<S-k>', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts) 
+map('n', '<S-j>', '<cmd>lua vim.diagnostic.goto_next()<CR>')
+map('n', '<S-k>', '<cmd>lua vim.diagnostic.goto_prev()<CR>') 
 map("n", "<C-u>", builtin.lsp_references, { desc = "Find all references" }) 
 map("n", "<C-g>", builtin.lsp_document_symbols, { desc = "Show all document symbols" })
--- map("n", "<C-x>", builtin.diagnostics, { desc = "Show project diagnostics" })
-
 
 map("n", "<C-x>", function()
   builtin.diagnostics({
     layout_strategy = "bottom_pane",
     layout_config = {
       height = 15, -- Adjust height as needed
-      preview_cutoff = 1000, -- Hide preview when narrow
+      preview_cutoff = 800, -- Hide preview when narrow
     },
   })
 end, { desc = "Show project diagnostics" })
 
-
 -- GODOT
-map('n', '<F5>', '<cmd>GodotRun<cr>', opts)
-map('n', '<F6>', '<cmd>GodotRunFZF<cr>', opts)
+map('n', '<F5>', '<cmd>GodotRun<cr>')
+map('n', '<F6>', '<cmd>GodotRunFZF<cr>')
 
+
+-- Custom function to show hover with borders and background color
+local function custom_hover()
+  local opts = {
+    focusable = false,  -- Make it non-focusable
+    height = 60,        -- Set height of the floating window
+    width = 120,         -- Set width of the floating window
+  }
+
+  -- Custom highlight for the floating window background (optional)
+  vim.cmd('highlight! NormalFloat guibg=#353746')  -- Set background color of floating window
+
+  vim.lsp.buf.hover({
+    -- Call custom floating preview with options
+    handler = function(_, result)
+      if not result or not result.contents then
+        return
+      end
+
+      local lines = {}
+      if type(result.contents) == "table" then
+        for _, content in ipairs(result.contents) do
+          table.insert(lines, content.value or content)
+        end
+      else
+        table.insert(lines, result.contents)
+      end
+
+      vim.lsp.util.open_floating_preview(lines, 'markdown', opts)
+    end
+  })
+end
+
+-- Bind to keymap (Ctrl + J)
+vim.keymap.set('n', '<C-i>', custom_hover, { desc = "Show hover with custom border and background" })
+vim.keymap.set('i', '<C-i>', custom_hover, { desc = "Show hover with custom border and background" })
