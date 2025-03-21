@@ -76,6 +76,6 @@ local function create_file_in_directory(directory)
 end
 
 -- Create a file in your documentation directory
-vim.api.nvim_create_user_command("CreateDocFile", function()
+vim.api.nvim_create_user_command("NewNote", function()
   create_file_in_directory("D:/Koofr/Notes/Inbox")
 end, {})

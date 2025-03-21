@@ -14,6 +14,7 @@ vim.cmd [[
 	" Dependencies comes at the top
 	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 	Plug 'nvim-lua/plenary.nvim'
+	Plug 'nvim-neotest/nvim-nio'
 
 	" Files
 	Plug 'ibhagwan/fzf-lua'
@@ -21,9 +22,6 @@ vim.cmd [[
 
 	" Theme
 	Plug 'dracula/vim', { 'as': 'dracula' }
-
-	" Git
-	Plug 'tpope/vim-fugitive'
 
 	" Dev
 	Plug 'neovim/nvim-lspconfig'
@@ -36,6 +34,8 @@ vim.cmd [[
 	Plug 'saadparwaiz1/cmp_luasnip'
 
 	Plug 'mfussenegger/nvim-dap'
+	Plug 'rcarriga/nvim-dap-ui'
+	Plug 'theHamsta/nvim-dap-virtual-text'
 
 	Plug 'habamax/vim-godot'
 
@@ -55,3 +55,11 @@ require('config.dev_config')
 require('config.telescope_config')
 require('config.mappings')
 require('config.quick_access')
+
+
+-- TODO:
+-- FIX:
+-- NOTE:
+-- HACK:
+-- PERFORMANCE:
+-- TEMP:

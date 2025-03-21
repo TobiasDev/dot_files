@@ -1,4 +1,5 @@
 local builtin = require('telescope.builtin')
+local dap = require('dap')
 
 vim.g.mapleader = " "
 
@@ -26,8 +27,10 @@ map("i", "<C-k>", "<ESC>ka")
 map("i", "<C-l>", "<ESC>la")
 
 -- Quick access
-map("n", "<C-p>", "<ESC>:Telescope find_files<CR>")
-map("n", "<C-f>", "<ESC>:Telescope live_grep<CR>")
+map("n", "<C-p>", builtin.find_files, { desc = "Look through files" }) 
+map("n", "<C-f>", builtin.live_grep, { desc = "Live Grep" }) 
+-- map("n", "<C-p>", "<ESC>:Telescope find_files<CR>")
+-- map("n", "<C-f>", "<ESC>:Telescope live_grep<CR>")
 map("n", "<C-t>", "<ESC>:TodoTelescope<CR>")
 
 map("n", "<leader>t", "<ESC>:SearchForNote<CR>")
@@ -98,3 +101,18 @@ end
 -- Bind to keymap (Ctrl + J)
 vim.keymap.set('n', '<C-i>', custom_hover, { desc = "Show hover with custom border and background" })
 vim.keymap.set('i', '<C-i>', custom_hover, { desc = "Show hover with custom border and background" })
+
+
+
+
+-- Keymappings for debugging
+vim.keymap.set('n', '<F9>', function() dap.continue() end)
+vim.keymap.set('n', '<F10>', function() dap.step_over() end)
+vim.keymap.set('n', '<F11>', function() dap.step_into() end)
+vim.keymap.set('n', '<F12>', function() dap.step_out() end)
+vim.keymap.set('n', '<leader>b', function() dap.toggle_breakpoint() end)
+vim.keymap.set('n', '<leader>B', function() dap.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end)
+vim.keymap.set('n', '<leader>dr', function() dap.repl.open() end)
+
+
+
