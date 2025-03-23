@@ -48,7 +48,7 @@ map('n', '<C-e>', '<cmd>lua vim.diagnostic.open_float()<CR>')
 map('n', '<C-r>', '<cmd>lua vim.lsp.buf.rename()<cr>')
 map('n', '<S-j>', '<cmd>lua vim.diagnostic.goto_next()<CR>')
 map('n', '<S-k>', '<cmd>lua vim.diagnostic.goto_prev()<CR>') 
-map("n", "<C-u>", builtin.lsp_references, { desc = "Find all references" }) 
+map("n", "<C-y>", builtin.lsp_references, { desc = "Find all references" }) 
 map("n", "<C-g>", builtin.lsp_document_symbols, { desc = "Show all document symbols" })
 
 map("n", "<C-x>", function()

@@ -72,16 +72,8 @@ vim.keymap.set('n', '<leader>du', function() dapui.toggle() end)
 
 
 
-require("todo-comments").setup{
-	keywords = {
-		TODO = { icon = "📝", color = "#FF79C6" },      -- Bright pink (stands out well)
-		FIX = { icon = "🛠️", color = "#FF5555" },       -- Bright red (urgent/attention)
-		NOTE = { icon = "📌", color = "#50FA7B" },      -- Bright green (informational)
-		HACK = { icon = "⚡", color = "#FFB86C" },      -- Orange (warning/temporary)
-		PERFORMANCE = { icon = "🚀", color = "#8BE9FD" },-- Cyan (technical/optimization)
-		TEMP = { icon = "⏱️", color = "#BD93F9" },      -- Purple (temporary code)
-	}
-}
+-- TODO: Fix problem with this
+require("todo-comments").setup{}
 
 require("nvim-autopairs").setup{}
 

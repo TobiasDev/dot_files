@@ -15,13 +15,18 @@ vim.cmd [[
 	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 	Plug 'nvim-lua/plenary.nvim'
 	Plug 'nvim-neotest/nvim-nio'
+	Plug 'dracula/vim', { 'as': 'dracula' }
+	Plug 'nvim-tree/nvim-web-devicons'
 
 	" Files
 	Plug 'ibhagwan/fzf-lua'
 	Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
 
 	" Theme
-	Plug 'dracula/vim', { 'as': 'dracula' }
+	Plug 'nvim-lualine/lualine.nvim'
+
+	" Git
+	Plug 'tpope/vim-fugitive'
 
 	" Dev
 	Plug 'neovim/nvim-lspconfig'
@@ -55,6 +60,7 @@ require('config.dev_config')
 require('config.telescope_config')
 require('config.mappings')
 require('config.quick_access')
+require('lualine').setup()
 
 
 -- TODO:
