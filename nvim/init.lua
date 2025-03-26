@@ -50,6 +50,9 @@ vim.cmd [[
 
 	Plug 'numToStr/Comment.nvim'
 
+	" Workflow
+	Plug 'nvim-pack/nvim-spectre'
+
 	call plug#end()
 	
 ]]
@@ -60,12 +63,11 @@ require('config.dev_config')
 require('config.telescope_config')
 require('config.mappings')
 require('config.quick_access')
+
 require('lualine').setup()
+require("nvim-autopairs").setup{}
+require("Comment").setup{}
+require("spectre").setup{}
 
 
--- TODO:
--- FIX:
--- NOTE:
--- HACK:
--- PERFORMANCE:
--- TEMP:
+
