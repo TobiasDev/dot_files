@@ -7,6 +7,11 @@ vim.api.nvim_create_user_command('CDMomentum', function()
   print("Changed directory to Momentum!")
 end, {})
 
+vim.api.nvim_create_user_command('CDShards', function()
+  vim.cmd('cd D:/Projects/Shards/')
+  print("Changed directory to Shards!")
+end, {})
+
 vim.api.nvim_create_user_command('CDNotes', function()
   vim.cmd('cd D:/Koofr/Notes/')
   print("Changed directory to notes!")
@@ -23,7 +28,7 @@ vim.keymap.set('n', '<C-o>', function()
   pickers.new({}, {
     prompt_title = "Jump to Folder",
     finder = finders.new_table({
-      results = { "Momentum", "Notes", "Config" },
+      results = { "Momentum", "Notes", "Config", "Shards" },
     }),
     sorter = conf.generic_sorter({}),
     attach_mappings = function(prompt_bufnr, map)
@@ -33,6 +38,7 @@ vim.keymap.set('n', '<C-o>', function()
           ["Momentum"] = "D:/Projects/momentum/",
           ["Notes"] = "D:/Koofr/Notes/",
           ["Config"] = "~/AppData/Local/nvim/",
+          ["Shards"] = "D:/Projects/shards/",
         }
         
         -- 🚀 Close the Telescope picker first
@@ -79,3 +85,23 @@ end
 vim.api.nvim_create_user_command("NewNote", function()
   create_file_in_directory("D:/Koofr/Notes/Inbox")
 end, {})
+
+-- Create a file in your documentation directory
+vim.api.nvim_create_user_command("NewFileInShards", function()
+  create_file_in_directory("D:/Projects/shards")
+end, {})
+
+function TodoSearch()
+  local todo_file = vim.fn.expand("D:/Koofr/Notes/Todos/Todo.md")
+  
+  -- Use Telescope's grep_string in a specific file with @ pre-filled
+  require('telescope.builtin').grep_string({
+    prompt_title = "Todo Items",
+    search = "@",
+    search_dirs = { todo_file },
+    path_display = { "hidden" },
+  })
+end
+
+-- Setup keybinding
+vim.api.nvim_set_keymap('n', '<leader>t', ':lua TodoSearch()<CR>', { noremap = true, silent = true })

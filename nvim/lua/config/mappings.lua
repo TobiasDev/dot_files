@@ -37,6 +37,7 @@ map("n", "<leader>t", "<ESC>:SearchForNote<CR>")
 map("n", "<leader>f", "<ESC>:SearchNotes<CR>")
 map("n", "<leader>s", "<ESC>:SearchForConfigFile<CR>")
 map("n", "<leader>o", "<ESC>:SearchForFileInProjects<CR>")
+map("n", "<leader>n", "<ESC>:SearchForNote<CR>")
 
 -- Development
 -- Toggle comments
@@ -113,6 +114,3 @@ vim.keymap.set('n', '<F12>', function() dap.step_out() end)
 vim.keymap.set('n', '<leader>b', function() dap.toggle_breakpoint() end)
 vim.keymap.set('n', '<leader>B', function() dap.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end)
 vim.keymap.set('n', '<leader>dr', function() dap.repl.open() end)
-
-
-
