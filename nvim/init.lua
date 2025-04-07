@@ -44,8 +44,6 @@ vim.cmd [[
 
 	Plug 'habamax/vim-godot'
 
-	Plug 'folke/todo-comments.nvim'
-
 	Plug 'windwp/nvim-autopairs'
 
 	Plug 'numToStr/Comment.nvim'

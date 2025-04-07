@@ -10,6 +10,7 @@ o.number = true
 o.cursorline = true
 o.linebreak = true
 o.signcolumn = "yes"
+o.clipboard = "unnamedplus"
 
 g.godot_executable = "D:/GameEngines/Godot/Godot_v4.4-stable_win64_console.exe"
 

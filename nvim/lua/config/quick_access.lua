@@ -91,17 +91,101 @@ vim.api.nvim_create_user_command("NewFileInShards", function()
   create_file_in_directory("D:/Projects/shards")
 end, {})
 
-function TodoSearch()
-  local todo_file = vim.fn.expand("D:/Koofr/Notes/Todos/Todo.md")
+-- Function to search for predefined todo tags across the project
+function TodoBrowser()
+  local pickers = require("telescope.pickers")
+  local finders = require("telescope.finders")
+  local conf = require("telescope.config").values
+  local actions = require("telescope.actions")
+  local action_state = require("telescope.actions.state")
   
-  -- Use Telescope's grep_string in a specific file with @ pre-filled
-  require('telescope.builtin').grep_string({
-    prompt_title = "Todo Items",
-    search = "@",
-    search_dirs = { todo_file },
-    path_display = { "hidden" },
-  })
+  -- Define your todo tags here
+  local todo_tags = {
+    "@Todo",
+    "@Bug", 
+    "@Refactor",
+    "@Note",
+    "@Optimize",
+    "@Performance",
+    "@Fixme",
+    "@Hack"
+  }
+  
+  -- File extensions to search
+  local file_extensions = { "gd", "ini", "csv", "md", "txt", "json", "tscn" }
+  
+  -- Build the grep command with all tags as alternatives
+  local tag_pattern = table.concat(todo_tags, "|")
+  
+  -- Define the base grep command
+  local grep_command = {"rg", "--color=never", "--line-number", "--column", "--smart-case", "--with-filename"}
+  
+  -- Add file extension patterns
+  for _, ext in ipairs(file_extensions) do
+    table.insert(grep_command, "--glob=**/*." .. ext)
+  end
+  
+  -- Exclude .git directory
+  table.insert(grep_command, "--glob=!.git/*")
+  
+  -- Add the pattern
+  table.insert(grep_command, "-e")
+  table.insert(grep_command, "(" .. tag_pattern .. ")")
+  
+  -- Add the search directory
+  table.insert(grep_command, vim.fn.getcwd())
+  
+  -- Create the picker with default configuration
+  local opts = {
+    prompt_title = "Todo Tags",
+    initial_mode = "normal",
+    attach_mappings = function(prompt_bufnr, map)
+      -- Default action to open the file
+      actions.select_default:replace(function()
+        local selection = action_state.get_selected_entry()
+        if not selection then return end
+        
+        actions.close(prompt_bufnr)
+        
+        -- Extract file data from selection
+        if selection.filename then
+          -- Direct opening of the file at the correct line/column
+          vim.cmd("edit " .. vim.fn.fnameescape(selection.filename))
+          vim.api.nvim_win_set_cursor(0, {selection.lnum, (selection.col or 1) - 1})
+        end
+      end)
+      
+      return true
+    end
+  }
+  
+  -- Create and run the picker with proper parsing of ripgrep output
+  pickers.new(opts, {
+    finder = finders.new_oneshot_job(
+      grep_command,
+      {
+        entry_maker = function(line)
+          -- Parse the ripgrep output format: filename:line:column:text
+          local filename, lnum, col, text = line:match("(.+):(%d+):(%d+):(.*)")
+          
+          if not filename then return nil end
+          
+          return {
+            value = line,
+            ordinal = line,
+            display = line,
+            filename = filename,
+            lnum = tonumber(lnum),
+            col = tonumber(col),
+            text = text
+          }
+        end
+      }
+    ),
+    sorter = conf.generic_sorter({}),
+    previewer = conf.grep_previewer({}),
+  }):find()
 end
 
--- Setup keybinding
-vim.api.nvim_set_keymap('n', '<leader>t', ':lua TodoSearch()<CR>', { noremap = true, silent = true })
+-- Command version
+vim.api.nvim_create_user_command('TodoBrowser', TodoBrowser, {})

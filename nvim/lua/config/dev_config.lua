@@ -25,23 +25,6 @@ cmp.setup({
   }),
 })
 
-require("todo-comments").setup{
-  keywords = {
-    CURRENTLY_WORKING_ON    = { icon = " ", color = "#C770F0" },
-    BUG             		= { icon = " ", color = "#FF6E6E" },
-    HACK            		= { icon = " ", color = "#FF3B66" },
-    NOTE            		= { icon = " ", color = "#FF9E64" },
-    NOT_FINISHED    		= { icon = " ", color = "#5BE4F0" },
-    PERFORMANCE     		= { icon = " ", color = "#4ADEDE" },
-    TEMP            		= { icon = "⏲ ", color = "#7D82FF" },
-    TODO            		= { icon = " ", color = "#C770F0" },
-    WARNING         		= { icon = " ", color = "#E6E95B" }
-  },
-  highlight = {
-    pattern = [[.*#\s*<(KEYWORDS)>]], -- Force detection for GDScript
-  },
-}
-
 require("lspconfig").gdscript.setup{}
 require("lspconfig").gdshader_lsp.setup{}
 require("luasnip.loaders.from_lua").lazy_load({ paths = "~/.config/nvim/lua/snippets/" })
@@ -83,17 +66,3 @@ end
 
 -- Virtual text for debugging
 require("nvim-dap-virtual-text").setup()
-
--- Additional keybinding for UI
-vim.keymap.set('n', '<leader>du', function() dapui.toggle() end)
-
--- BUG:
--- HACK:
--- NOTE:
--- NOT_FINISHED:
--- PERFORMANCE:
--- TEMP:
--- TODO:
--- WARNING:
-
-

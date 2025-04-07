@@ -14,9 +14,6 @@ map("n", "<C-q>", ":q<CR>")
 map("n", "ss", ":vs<CR>")
 map("n", "<C-h>", ":wincmd h<CR>")
 map("n", "<C-l>", ":wincmd l<CR>")
-map("v", "<leader>c", '"+y')
-map("n", "<leader>p", '"+p')
-map("v", "<leader>p", '"+p')
 
 map("v", "<C-h>", "<")
 map("v", "<C-l>", ">")
@@ -29,9 +26,7 @@ map("i", "<C-l>", "<ESC>la")
 -- Quick access
 map("n", "<C-p>", builtin.find_files, { desc = "Look through files" }) 
 map("n", "<C-f>", builtin.live_grep, { desc = "Live Grep" }) 
--- map("n", "<C-p>", "<ESC>:Telescope find_files<CR>")
--- map("n", "<C-f>", "<ESC>:Telescope live_grep<CR>")
-map("n", "<C-t>", "<ESC>:TodoTelescope<CR>")
+map("n", "<C-t>", "<ESC>:TodoBrowser<CR>")
 
 map("n", "<leader>t", "<ESC>:SearchForNote<CR>")
 map("n", "<leader>f", "<ESC>:SearchNotes<CR>")
@@ -66,46 +61,23 @@ end, { desc = "Show project diagnostics" })
 map('n', '<F5>', '<cmd>GodotRun<cr>')
 map('n', '<F6>', '<cmd>GodotRunFZF<cr>')
 
-
--- Custom function to show hover with borders and background color
-local function custom_hover()
-  local opts = {
-    focusable = false,  -- Make it non-focusable
-    height = 60,        -- Set height of the floating window
-    width = 120,         -- Set width of the floating window
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+  vim.lsp.handlers.hover,
+  {
+    border = "single",
+    width = 250,
+    offset_x = 0,
+    pad_top = 0,
+    pad_bottom = 0,
+    pad_left = 0,
+    pad_right = 0
   }
+)
 
-  -- Custom highlight for the floating window background (optional)
-  vim.cmd('highlight! NormalFloat guibg=#353746')  -- Set background color of floating window
+vim.keymap.set('n', '<C-i>', vim.lsp.buf.hover, { desc = "Show hover with custom border and background" })
+vim.keymap.set('i', '<C-i>', vim.lsp.buf.hover, { desc = "Show hover with custom border and background" })
 
-  vim.lsp.buf.hover({
-    -- Call custom floating preview with options
-    handler = function(_, result)
-      if not result or not result.contents then
-        return
-      end
-
-      local lines = {}
-      if type(result.contents) == "table" then
-        for _, content in ipairs(result.contents) do
-          table.insert(lines, content.value or content)
-        end
-      else
-        table.insert(lines, result.contents)
-      end
-
-      vim.lsp.util.open_floating_preview(lines, 'markdown', opts)
-    end
-  })
-end
-
--- Bind to keymap (Ctrl + J)
-vim.keymap.set('n', '<C-i>', custom_hover, { desc = "Show hover with custom border and background" })
-vim.keymap.set('i', '<C-i>', custom_hover, { desc = "Show hover with custom border and background" })
-
-
-
-
+-- @Note: These are currently copied from the default, which is why they are not using my setup
 -- Keymappings for debugging
 vim.keymap.set('n', '<F9>', function() dap.continue() end)
 vim.keymap.set('n', '<F10>', function() dap.step_over() end)
