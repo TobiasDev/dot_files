@@ -15,8 +15,9 @@ vim.cmd [[
 	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 	Plug 'nvim-lua/plenary.nvim'
 	Plug 'nvim-neotest/nvim-nio'
-	Plug 'dracula/vim', { 'as': 'dracula' }
 	Plug 'nvim-tree/nvim-web-devicons'
+
+	Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 
 	" Files
 	Plug 'ibhagwan/fzf-lua'

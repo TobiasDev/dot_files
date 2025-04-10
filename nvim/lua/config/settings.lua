@@ -14,4 +14,4 @@ o.clipboard = "unnamedplus"
 
 g.godot_executable = "D:/GameEngines/Godot/Godot_v4.4-stable_win64_console.exe"
 
-vim.cmd("colorscheme dracula")
+vim.cmd("colorscheme catppuccin")
